@@ -1,30 +1,43 @@
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
-  
+import { category } from "@/sanity/category";
+
+const res = await client.fetch(`*[_type=="product"] {
+  price,
+    _id,
+    title,
+    image,
+    category -> {
+    name
+    }
+    
+}`)
+
 interface IProduct {
     title: string,
     description: string,
     price: number,    
     image: string,
     category: {
-            category: string
+            name: string
           }  
     }
   
 
 export default async function Home() {
-  const res:IProduct[] = await client.fetch('*[_type == "product"]')
+ 
   return (
    <div>
         {
           res.map((data)=> {
             return (
               <div>
+                <Image src={urlFor(data.image).url()} alt="Sanity Image" width={200} height={200}/>
                 <h1>{data.title}</h1>
                 <h1>{data.description}</h1>
-                <h1>{data.price}</h1>
-                <Image src={urlFor(data.image).url()} alt="Sanity Image" width={200} height={200}/>
+                <h1>{data.price}</h1>                
+                <h1>{data.category.name}</h1>
                                
                 
               </div>
@@ -40,44 +53,44 @@ export default async function Home() {
 }
 
 
-
-
-
 // import { client } from "@/sanity/lib/client";
-// import { title } from "process";
-// import { Image as IImage} from 'sanity'
-
-
-// export const getProductData = async () => {
-//   const res = await client.fetch('*[_type=="product"]{
-//     title,
-//     description,
-//     price
-//   }')
-//       return res
-//   }    
-
-//   interface IProduct {
+// import Image from "next/image";
+// import { urlFor } from "@/sanity/lib/image";
+  
+// interface IProduct {
 //     title: string,
-//     _id: string,
 //     description: string,
-//     image: IImage,
-//     price: number,
+//     price: number,    
+//     image: string,
 //     category: {
-//       name:string
+//             category: string
+//           }  
 //     }
-//   }
+  
 
 // export default async function Home() {
-//   const data:IProduct[] = await getProductData()
-//   console.log(data);
+//   const res:IProduct[] = await client.fetch('*[_type == "product"]')
 //   return (
 //    <div>
+//         {
+//           res.map((data)=> {
+//             return (
+//               <div>
+//                 <h1>{data.title}</h1>
+//                 <h1>{data.description}</h1>
+//                 <h1>{data.price}</h1>
+//                 <Image src={urlFor(data.image).url()} alt="Sanity Image" width={200} height={200}/>
+                               
+                
+//               </div>
+//             )
+//           }
+//         )
+
+//         }
  
 
 //    </div>
 //   );
 // }
 
-
- 
