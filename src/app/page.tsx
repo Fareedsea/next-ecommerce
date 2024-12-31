@@ -32,14 +32,12 @@ export default async function Home() {
         {
           res.map((data)=> {
             return (
-              <div>
-                <Image src={urlFor(data.image).url()} alt="Sanity Image" width={200} height={200}/>
-                <h1>{data.title}</h1>
-                <h1>{data.description}</h1>
-                <h1>{data.price}</h1>                
-                <h1>{data.category.name}</h1>
-                               
-                
+              <div className="flex justify-center space-x-2 py-2">                
+                  <Image src={urlFor(data.image).url()} alt="Sanity Image" width={100} height={100}/>
+                  <h1>{data.title}</h1>
+                  <h1>{data.description}</h1>
+                  <h1>{data.price}</h1>                
+                  <h1>{data.category.name}</h1>                
               </div>
             )
           }
